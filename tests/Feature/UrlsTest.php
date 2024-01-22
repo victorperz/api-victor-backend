@@ -8,38 +8,19 @@ use Tests\TestCase;
 class UrlsTest extends TestCase
 {
     public function testSePuedeObtenerUrlAcortadaYRedireccioneALaOriginal(): void
-    {
-        $this->withoutExceptionHandling();
+    {$this->withoutExceptionHandling();
         $exampleUrl = 'https://www.clavesegura.org';
 
-        //Recibimos la clase RedirectResponse
-        $redirectedUrl = $this->post('/api/v1/short-urls/?url='.$exampleUrl);
+        $jsonResponse = $this->post('/api/v1/short-urls/?url='.$exampleUrl);
 
-        //Verificar que tengo de respuesta una redireccion 
-        $redirectedUrl->assertStatus(Response::HTTP_FOUND);
+        $jsonResponse->assertOk();
 
-        //Verificamos que contenga algo en la respuesta
-        $this->assertNotEmpty($redirectedUrl);
+        $this->assertNotEmpty($jsonResponse);
 
-        //obtener la url de la cabecera
-        $locationHeader = $redirectedUrl->headers->get('Location');
+        //Validar que la respuesta devuelve la url acortada esperada
+        $this->assertEquals('http://tinyurl.com/yqyzevbc', $jsonResponse['url']);  
 
-        //Verificar que la respuesta devuelve la url acortada esperada
-        $this->assertEquals('http://tinyurl.com/yqyzevbc', $locationHeader);  
-
+        //Validar que viene una key url de la respuesta
+        $this->assertArrayHasKey('url', $jsonResponse);
     }
-        
-
-
-        //Verficar que devuelva un atributo url dentro del json
-
-    //Debe tener un endpoint funcional tipo post
-
-    // la url recibida por parametro debe ser tipo string y requerida
-
-   
-
-
-
-
 }

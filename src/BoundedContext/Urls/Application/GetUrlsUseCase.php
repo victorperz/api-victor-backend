@@ -6,6 +6,7 @@ namespace Src\BoundedContext\Urls\Application;
 
 use GuzzleHttp\Client;
 use Src\BoundedContext\Urls\Domain\ValueObjects\ExternalUrl;
+use Src\BoundedContext\Urls\Domain\ValueObjects\FormattedUrl;
 use Src\BoundedContext\Urls\Domain\ValueObjects\ReceivedUrl;
 
 final class GetUrlsUseCase
@@ -25,9 +26,12 @@ final class GetUrlsUseCase
      //Ejecutar peticion http con cliente GuzzleHttp
      $client   = new Client();
      $response = $client->request('GET', $url);
+     //Obtener el cuerpo de la peticion y devolver el contenido como cadena de caracteres
      $body     = $response->getBody()->getContents();
-    //  dd($body);
-     return $body;
+
+     $respJson = new FormattedUrl($body);
+
+     return $respJson;
     }
 }
 

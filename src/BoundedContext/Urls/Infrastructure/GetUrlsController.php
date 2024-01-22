@@ -11,7 +11,7 @@ final class GetUrlsController
 {
     public function __invoke(Request $request)
     {
-        // En la capa de infraestructura hacemos referencia a la API externa
+        // API externa
         $externalUrl = 'https://tinyurl.com/api-create.php?url=';
         
         // Captura de la url que vamos a acortar con el api de tinyurl

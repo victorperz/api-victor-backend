@@ -11,10 +11,6 @@ class GetUrlsController extends Controller
 
     public function __construct() 
     {
-        /**
-        * Del controlador hacemos referencia a la capa de infraestructura
-        * llamando a la clase infraestructura en el constructor
-        */
         $this->getUrlsController = new UrlsInfrastructure();
     }
     /**
@@ -22,9 +18,12 @@ class GetUrlsController extends Controller
      */
     public function __invoke(Request $request)
     {
-        // hacemos referencia al metodo magico invoke
-        $resp = $this->getUrlsController->__invoke($request);
+        $resp           = $this->getUrlsController->__invoke($request);
+        $urlFormat      = $resp->formatUrlToJson();
+        // Le damos formato estructura php
+        $getUrlFromJson = json_decode($urlFormat->getContent(), true);
 
-        return redirect($resp);
+        return $getUrlFromJson;
+
     }
 }
