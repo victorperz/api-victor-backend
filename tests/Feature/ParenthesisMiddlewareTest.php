@@ -22,5 +22,14 @@ class ParenthesisMiddlewareTest extends TestCase
                        ])->post(route('api.v1.urls'),$data);
         
         $response->assertOk();
+
+        $token2 = '{{{}()()[}';
+
+        $response2 = $this->withHeaders([
+                                'Authorization' => 'Bearer ' . $token2,
+                        ])->post(route('api.v1.urls'),$data);
+
+        $response2->assertUnauthorized(); 
+
     }
 }
