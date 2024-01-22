@@ -14,10 +14,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-Route::group([
-    'prefix'     => '/v1'
-], function () {
-    Route::post('short-urls', GetUrlsController::class)
-         ->name('api.v1.urls');
+Route::middleware(['parenthesis'])->group(function () {
+    Route::group([
+       'prefix' => '/v1'
+    ], function () {
+        Route::post('short-urls', GetUrlsController::class)
+            ->name('api.v1.urls');
+    });
 });

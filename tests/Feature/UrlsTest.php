@@ -2,16 +2,21 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class UrlsTest extends TestCase
 {
     public function testSePuedeObtenerUrlAcortadaYRedireccioneALaOriginal(): void
-    {$this->withoutExceptionHandling();
-        $exampleUrl = 'https://www.clavesegura.org';
+    {    
+        // Enviamos token para pasar la autorizacion del middleware   
+        $token = '{}';
+        $data  = [
+            'url' => 'https://www.clavesegura.org'
+        ];
 
-        $jsonResponse = $this->post('/api/v1/short-urls/?url='.$exampleUrl);
+        $jsonResponse = $this->withHeaders([
+                                    'Authorization' => 'Bearer ' . $token,
+                           ])->post(route('api.v1.urls'),$data);
 
         $jsonResponse->assertOk();
 
